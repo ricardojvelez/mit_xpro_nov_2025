@@ -1,0 +1,73 @@
+.ctc-wrapper {
+  background-color: #1e2330;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+.ctc-card {
+  background-color: #252d3d;
+  border-radius: 12px;
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.ctc-title {
+  color: #4caf50;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.ctc-section-label {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.ctc-inner-card {
+  background-color: #1e2330;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+}
+
+.ctc-data-text {
+  color: #ffffff;
+  font-size: 18px;
+  margin: 0;
+}
+
+.ctc-highlight {
+  color: #5b9cf6;
+  font-weight: bold;
+}
+
+.ctc-flow-label {
+  color: #ffffff;
+  text-align: center;
+  font-size: 16px;
+  margin: 16px 0;
+}
+
+.ctc-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #000000;
+  box-sizing: border-box;
+}
+
+.ctc-input:focus {
+  outline: none;
+  border-color: #5b9cf6;
+}

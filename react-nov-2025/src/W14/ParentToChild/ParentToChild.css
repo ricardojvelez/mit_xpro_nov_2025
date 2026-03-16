@@ -1,0 +1,71 @@
+.ptc-wrapper {
+  background-color: #1e2330;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+.ptc-card {
+  background-color: #252d3d;
+  border-radius: 12px;
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.ptc-title {
+  color: #4caf50;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.ptc-section-label {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.ptc-inner-card {
+  background-color: #1e2330;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+}
+
+.ptc-count-text {
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.ptc-highlight {
+  color: #5b9cf6;
+  font-weight: bold;
+}
+
+.ptc-button {
+  background-color: #5b9cf6;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 24px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.ptc-button:hover {
+  background-color: #3a7de0;
+}
+
+.ptc-flow-label {
+  color: #ffffff;
+  text-align: center;
+  font-size: 16px;
+  margin: 16px 0;
+}
