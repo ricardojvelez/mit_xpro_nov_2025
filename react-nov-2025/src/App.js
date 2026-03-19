@@ -13,10 +13,16 @@ import { ParentToChild } from "./W14/ParentToChild/ParentToChild";
 import { ChildToParent } from "./W14/ChildToParent/ChildToParent";
 import HierarchyTree from "./W14/RecursiveExample/HierarchyTree/HierarchyTree";
 
+//W15
+import { AxiosComponent } from "./W15/AxiosComponent/AxiosComponent"; 
+import { FetchComponent } from "./W15/FetchComponent/FetchComponent";
+import { FetchComponentSinglePokemon } from "./W15/FetchComponentSinglePokemon/FetchComponentSinglePokemon";
+
+
 
 
 const App = () => {
-  return <HierarchyTree />;
+  return <FetchComponent name="bulbasaur" />;
 };
 
 export default App;
