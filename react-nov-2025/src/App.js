@@ -19,10 +19,14 @@ import { FetchComponent } from "./W15/FetchComponent/FetchComponent";
 import { FetchComponentSinglePokemon } from "./W15/FetchComponentSinglePokemon/FetchComponentSinglePokemon";
 
 
+//W16
+import { CounterApp } from "./W16/CreateContextExample/CounterApp";
+import { ComponentA } from "./W16/DrillDownExample/ComponentA";
+
 
 
 const App = () => {
-  return <FetchComponent name="bulbasaur" />;
+  return <CounterApp />;
 };
 
 export default App;
