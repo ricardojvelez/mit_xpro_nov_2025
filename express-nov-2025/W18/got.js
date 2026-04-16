@@ -4,12 +4,12 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 
 const characters = [
-  { id: 1, name: 'John Snow', House: 'Stark' },
-  { id: 2, name: 'Daenerys Targaryen', House: 'Targaryen' },
-  { id: 3, name: 'Arya Stark', House: 'Stark' },
-  { id: 4, name: 'Sansa Stark', House: 'Stark' },
-  { id: 5, name: 'Cersei Lannister', House: 'Lannister' },
-  { id: 6, name: 'Jaime Lannister', House: 'Lannister' },
+  { id: 1, name: 'John Snow', house: 'Stark' },
+  { id: 2, name: 'Daenerys Targaryen', house: 'Targaryen' },
+  { id: 3, name: 'Arya Stark', house: 'Stark' },
+  { id: 4, name: 'Sansa Stark', house: 'Stark' },
+  { id: 5, name: 'Cersei Lannister', house: 'Lannister' },
+  { id: 6, name: 'Jaime Lannister', house: 'Lannister' },
 ];
 
 /*Week 17*/
@@ -27,23 +27,20 @@ app.get('/characters/:id', (req, res) => {
   res.send(character);
 });
 
-/*app.post('/characters', (req, res) => {
-    console.log(req);
-    const newSubmission = req.body;
-    console.log(newSubmission);
-    characters.push(newSubmission);
-    console.log(characters);
-    res.json({ message: 'Item received' });
-});*/
-
-
 /*Week 18*/
 app.post('/characters', (req, res) => {
+  /*
+    if(req.body.name === undefined || req.body.house === undefined) {
+    res.status(400).send("Name and house are required");
+  } */
   const newCharacter = req.body;
-  console.log("newCharacter: ", newCharacter);
+  console.log("newCharacter_A: ", newCharacter);
 
-  const nextId = Math.max(...characters.map(char => char.id)) + 1;
+  const nextId = characters.length + 1; //When we add 'Delete' we'll need to use Math.max(...characters.map(char => char.id)) + 1;
+  console.log("newCharacter_B: ", newCharacter);
+
   newCharacter.id = nextId;
+  console.log("newCharacter_C: ", newCharacter);
 
   characters.push(newCharacter);
 
@@ -57,8 +54,7 @@ app.put('/characters/:id', (req, res) => {
     res.status(404).send("Character not found");
   } else {
     characterToUpdate.name = req.body.name;
-    characterToUpdate.House = req.body.House;
-
+    characterToUpdate.house = req.body.house;
     characterToUpdate.id = parseInt(req.params.id);
 
     res.send(characterToUpdate);
