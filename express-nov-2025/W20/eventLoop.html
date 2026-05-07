@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Loop Example</title>
+  </head>
+  <body>
+    <script>
+      const eventLoop = () => {
+        console.log("A"); //Executed
+        setTimeout(() => {
+          console.log("B");
+        }, 1000);
+        setTimeout(() => {
+          console.log("C");
+        }, 2000);
+        console.log("D");
+      };
+
+      eventLoop();
+
+      /*
+      The correct output is A D B C.
+      
+      Here's why:
+      1. console.log("A") — synchronous, runs immediately → A
+      2. setTimeout(...B, 1000) — handed off to the Web API, callback queued after 1000ms
+      3. setTimeout(...C, 2000) — handed off to the Web API, callback queued after 2000ms
+      4. console.log("D") — synchronous, runs immediately → D
+      5. After 1000ms, event loop picks up B's callback → B
+      6. After 2000ms, event loop picks up C's callback → C
+      7. B fires before C because its timer (1000ms) expires first. So the final order is:
+
+      A
+      D
+      B
+      C
+      */
+    </script>
+  </body>
+</html>

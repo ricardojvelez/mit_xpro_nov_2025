@@ -1,0 +1,16 @@
+# Docker Compose orchestrates multiple containers as a single application.
+# Services on the same Compose network can reach each other by service name.
+
+services:
+
+  backend:
+    build: ./backend          # build the image from ./backend/Dockerfile
+    ports:
+      - "5001:5000"           # host:container — 5000 is taken by macOS AirPlay, so we expose as 5001
+
+  frontend:
+    build: ./frontend         # build the image from ./frontend/Dockerfile
+    ports:
+      - "3000:3000"           # React dev server runs on 3000 inside the container
+    depends_on:
+      - backend               # start backend first
