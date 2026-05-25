@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>World Cup Firebase Demo</title>
+  <style>
+    body {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 20px;
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    form,
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea,
+    button {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      margin-top: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 16px;
+      cursor: pointer;
+    }
+
+    #status {
+      min-height: 24px;
+      font-weight: bold;
+    }
+
+    .note {
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>World Cup Firebase Demo</h1>
+  <p class="note">
+    This page shows a common Firebase use case: saving World Cup predictions to
+    Cloud Firestore and reading them back in real time.
+  </p>
+
+  <form id="predictionForm">
+    <h2>Add a World Cup Prediction</h2>
+    <label for="fanName">Fan Name</label>
+    <input type="text" id="fanName" name="fanName" placeholder="Alex" required />
+
+    <label for="winner">Who will win the World Cup?</label>
+    <input type="text" id="winner" name="winner" placeholder="Brazil" required />
+
+    <label for="reason">Why?</label>
+    <textarea id="reason" name="reason" rows="4" placeholder="they have a strong attack." required></textarea>
+
+    <button type="submit">Save to Firestore</button>
+  </form>
+
+  <p id="status"></p>
+
+  <section class="card">
+    <h2>World Cup Predictions from Firestore</h2>
+    <ul id="predictionList">
+      <li>Loading predictions...</li>
+    </ul>
+  </section>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    import {
+      addDoc,
+      collection,
+      getFirestore,
+      onSnapshot,
+      orderBy,
+      query,
+      serverTimestamp,
+    } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+    // Replace these values with the config from your Firebase project settings.
+    const firebaseConfig = {
+      apiKey: "changes this to your own api key",
+      authDomain: "changes this to your own auth domain",
+      projectId: "changes this to your own project id",
+      storageBucket: "changes this to your own storage bucket",
+      messagingSenderId: "changes this to your own messaging sender id",
+      appId: "changes this to your own app id"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const predictionsRef = collection(db, "worldCupPredictions");
+
+    const form = document.getElementById("predictionForm");
+    const status = document.getElementById("status");
+    const predictionList = document.getElementById("predictionList");
+
+    function showStatus(message, isError = false) {
+      status.textContent = message;
+      status.style.color = isError ? "crimson" : "green";
+    }
+
+    function getFirebaseHelp(error) {
+      if (error.code === "permission-denied") {
+        return "Permission denied. In Firebase Console, open Firestore Database > Rules and allow read/write for this classroom demo.";
+      }
+
+      if (error.code === "failed-precondition" || error.code === "not-found") {
+        return "Firestore is not ready yet. In Firebase Console, create a Firestore Database first.";
+      }
+
+      return `Firebase error: ${error.code || error.message}`;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const fanName = document.getElementById("fanName").value.trim();
+      const winner = document.getElementById("winner").value.trim();
+      const reason = document.getElementById("reason").value.trim();
+
+      if (!fanName || !winner || !reason) {
+        showStatus("Please complete all fields.", true);
+        return;
+      }
+
+      try {
+        await addDoc(predictionsRef, {
+          fanName,
+          winner,
+          reason,
+          createdAt: serverTimestamp(),
+        });
+
+        form.reset();
+        showStatus("World Cup prediction saved.");
+      } catch (error) {
+        console.error(error);
+        showStatus(getFirebaseHelp(error), true);
+      }
+    });
+
+    const predictionsQuery = query(predictionsRef, orderBy("createdAt", "desc"));
+
+    onSnapshot(
+      predictionsQuery,
+      (snapshot) => {
+        predictionList.innerHTML = "";
+
+        if (snapshot.empty) {
+          predictionList.innerHTML = "<li>No predictions yet.</li>";
+          return;
+        }
+
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          const li = document.createElement("li");
+          li.textContent = `${data.fanName} predicts ${data.winner} will win because ${data.reason}`;
+          predictionList.appendChild(li);
+        });
+      },
+      (error) => {
+        console.error(error);
+        const helpMessage = getFirebaseHelp(error);
+        predictionList.innerHTML = `<li>${helpMessage}</li>`;
+        showStatus(helpMessage, true);
+      }
+    );
+  </script>
+</body>
+
+</html>

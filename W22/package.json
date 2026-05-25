@@ -1,0 +1,13 @@
+{
+  "name": "firebase-demo",
+  "version": "1.0.0",
+  "description": "Simple Firebase beginner demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.3",
+    "firebase": "^12.13.0"
+  }
+}
